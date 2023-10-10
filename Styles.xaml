@@ -1,0 +1,48 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Определение стиля для контекстного меню -->
+    <Style TargetType="ContextMenu" x:Key="ContextMenuStyle">
+        <Setter Property="Background" Value="#15161d"/>
+        <Setter Property="BorderBrush" Value="#d10024"/>
+    </Style>
+    <Style x:Key="SearchBarStyle" TargetType="StackPanel">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Background" Value="White" />
+    </Style>
+
+    <Style x:Key="CategoryComboBoxStyle" TargetType="ComboBox">
+        <Setter Property="Text" Value="Выберите категорию" />
+        <Setter Property="Width" Value="200" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style x:Key="SearchTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Text" Value="Поиск товаров" />
+        <Setter Property="Width" Value="200" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style x:Key="SearchButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="#d10024" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Width" Value="80" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+    </Style>
+
+    <Style x:Key="ComboBoxBorder" TargetType="Border">
+        <Setter Property="BorderBrush" Value="Gray" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="10,0,0,10" />
+    </Style>
+
+    <Style x:Key="TextBoxBorder" TargetType="Border">
+        <Setter Property="BorderBrush" Value="Gray" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="0" />
+    </Style>
+</ResourceDictionary>
