@@ -70,8 +70,6 @@
                                 <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" />
                                 <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
                                 <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
-                                <DataGridTextColumn Header="Role" Binding="{Binding Roles.First.RoleName}" />
-                                
                             </DataGrid.Columns>
                         </DataGrid>
                         <Button Content="Добавить" Click="AddUserButton_Click" VerticalAlignment="Bottom"  Width="100" HorizontalAlignment="Left"/>

@@ -26,10 +26,9 @@ namespace MarketplaceDesktop.Pages
 	{
 		Marketplace1Context db = new Marketplace1Context();
 		User _user;
-		public AdminPage(User user)
+		public AdminPage()
 		{
 			InitializeComponent();
-			_user = user;
 			RefreshProductList();
 			RefreshUserList();
 		}
