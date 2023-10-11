@@ -32,6 +32,13 @@ namespace MarketplaceDesktop
 			ProductsItemsControl.ItemsSource = _context.Products.ToList();
 			CategoryComboBox.ItemsSource = _context.Categories.Select(c => c.Name).ToList();
 		}
+		private void Product_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			Border border = (Border)sender;
+			Product selectedProduct = (Product)border.Tag;
+			ProductDetailWindow detailWindow = new ProductDetailWindow(selectedProduct);
+			detailWindow.Show();
+		}
 
 		private async void SearchButton_Click(object sender, RoutedEventArgs e)
 		{

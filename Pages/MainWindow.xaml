@@ -13,7 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid Margin="0,0,0,357">
         <local:MyUserControl VerticalAlignment="Top" Height="75"/>
         <StackPanel Style="{StaticResource SearchBarStyle}" Background="#15161d" Margin="240,24,119,0" Height="30">
 
@@ -26,32 +26,33 @@
             </ComboBox>
 
             <TextBox x:Name="SearchTextBox" Style="{StaticResource SearchTextBoxStyle}" FontSize="20" Width="247" />
-            <Button Content="Поиск" Click="SearchButton_Click" HorizontalAlignment="Right" Style="{StaticResource SearchButtonStyle}">
+            <Button Content="Поиск" Click="SearchButton_Click" HorizontalAlignment="Right"  FontSize="20" Style="{StaticResource SearchButtonStyle}">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="0 15 15 0"/>
                     </Style>
                 </Button.Resources>
             </Button>
-            <ItemsControl Panel.ZIndex="100" BorderBrush="AliceBlue" BorderThickness="5" x:Name="ProductsItemsControl" Margin="-500 100 0 10" Width="356" Height="156">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="Gray" BorderThickness="1" Margin="10" Width="200">
-                            <StackPanel>
 
-                                <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
-                                <TextBlock Text="{Binding Price, StringFormat='{}{0:C2}'}" FontSize="14" />
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
         </StackPanel>
+        <ItemsControl x:Name="ProductsItemsControl" Margin="10,80,10,-357" Grid.Column="0">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Width="200"  MouseLeftButtonUp="Product_MouseLeftButtonUp"  Tag="{Binding}">
+                        <StackPanel>
+                            <Image Source="{Binding ImageUrl}" Width="200" Height="150" />
+                            <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
+                            <TextBlock Text="{Binding Price, StringFormat='{}${0:N2}'}" FontSize="14" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <!--<Border BorderBrush="#15161d" BorderThickness="2" CornerRadius="10" Width="300" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">-->
         <!--<Grid>
                 <TextBox Padding="5 0 0 0" FontSize="20"  x:Name="txtEmail" Margin="20,20,20,0" VerticalAlignment="Top" Text="Email" Width="250" Height="30" />

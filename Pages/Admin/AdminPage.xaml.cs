@@ -25,7 +25,6 @@ namespace MarketplaceDesktop.Pages
 	public partial class AdminPage : Window
 	{
 		Marketplace1Context db = new Marketplace1Context();
-		public ObservableCollection<ProductViewModel> Products { get; set; }
 		User _user;
 		public AdminPage(User user)
 		{
