@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketplaceDesktop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="850">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -24,9 +24,8 @@
                     </Style>
                 </ComboBox.Resources>
             </ComboBox>
-
             <TextBox x:Name="SearchTextBox" Style="{StaticResource SearchTextBoxStyle}" FontSize="20" Width="247" />
-            <Button Content="Поиск" Click="SearchButton_Click" HorizontalAlignment="Right"  FontSize="20" Style="{StaticResource SearchButtonStyle}">
+            <Button Content="Поиск" Click="SearchButton_Click" HorizontalAlignment="Right" Style="{StaticResource SearchButtonStyle}">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="0 15 15 0"/>
@@ -43,11 +42,14 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Width="200"  MouseLeftButtonUp="Product_MouseLeftButtonUp"  Tag="{Binding}">
+                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Width="200"
+                    MouseLeftButtonUp="Product_MouseLeftButtonUp"
+                    Tag="{Binding}">
                         <StackPanel>
-                            <Image Source="{Binding ImageUrl}" Width="200" Height="150" />
+                            <Image Source="{Binding ImageUrl}" Width="200" Height="150"  />
                             <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
                             <TextBlock Text="{Binding Price, StringFormat='{}${0:N2}'}" FontSize="14" />
+                            <Button x:Name="CartButton" Background="#d10024" Click="CartButton_Click" Foreground="White" FontSize="16" Tag="{Binding}">Add to cart</Button>
                         </StackPanel>
                     </Border>
                 </DataTemplate>

@@ -25,6 +25,7 @@ namespace MarketplaceDesktop
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		User _user;
 		Marketplace1Context _context = new();
 		public MainWindow()
 		{
@@ -65,6 +66,16 @@ namespace MarketplaceDesktop
 			//		}
 			//}
 		}
-		
+
+		private async void CartButton_Click(object sender, RoutedEventArgs e)
+		{
+			UserController userController = new UserController(_context);
+			_user = await userController.GetUser(1);
+			Button button = (Button)sender;
+			Product selectedProduct = (Product)button.Tag;
+			_user.ProductsNavigation.Add(selectedProduct);
+			await userController.PutUser(_user.UserId, _user);
+			await _context.SaveChangesAsync();
+		}
 	}
 }
