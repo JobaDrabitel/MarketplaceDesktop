@@ -25,17 +25,20 @@ namespace MarketplaceDesktop.Pages
 	public partial class AdminPage : Window
 	{
 		Marketplace1Context db = new Marketplace1Context();
-		User _user;
-		public AdminPage()
+		User User { get; set; }
+		public AdminPage(User user)
 		{
 			InitializeComponent();
 			RefreshProductList();
 			RefreshUserList();
+			RefreshReviewList();
+			User = user;
 		}
 		private void MainWindow_Loaded(object sender, RoutedEventArgs e)
 		{
 			RefreshProductList();
 			RefreshUserList();
+			RefreshReviewList();
 		}
 
 		private void RefreshProductList()
@@ -53,6 +56,16 @@ namespace MarketplaceDesktop.Pages
 				db.Products.Add(product);
 				db.SaveChanges();
 				RefreshProductList();
+			}
+		}private void AddReviewButton_Click(object sender, RoutedEventArgs e)
+		{
+			ReviewWindow productWindow = new ReviewWindow(new Review());
+			if (productWindow.ShowDialog() == true)
+			{
+				Review review = productWindow.Review;
+				db.Reviews.Add(review);
+				db.SaveChanges();
+				RefreshReviewList();
 			}
 		}
 
@@ -87,14 +100,21 @@ namespace MarketplaceDesktop.Pages
 		{
 			
 		}
-		void Logout_Click(object sender, RoutedEventArgs e)
+		private void Logout_Click(object sender, RoutedEventArgs e)
 		{
-
+			User = null;
+			AuthWindow authWindow = new AuthWindow();
+			authWindow.Show();
+			this.Close();
 		}
 		private void RefreshUserList()
 		{
 			var users = db.Users.ToList();
 			UserGrid.ItemsSource = users;
+		}private void RefreshReviewList()
+		{
+			var reviews = db.Reviews.ToList();
+			ReviewsGrid.ItemsSource = reviews;
 		}
 
 		private void AddUserButton_Click(object sender, RoutedEventArgs e)
@@ -147,6 +167,13 @@ namespace MarketplaceDesktop.Pages
 			db.Users.Remove(selectedUser);
 			db.SaveChanges();
 			RefreshUserList();
+		}private void DeleteReviewButton_Click(object sender, RoutedEventArgs e)
+		{
+			Review selectedReview = ReviewsGrid.SelectedItem as Review;
+			if (selectedReview == null) return;
+			db.Reviews.Remove(selectedReview);
+			db.SaveChanges();
+			RefreshReviewList();
 		}
 
 	}

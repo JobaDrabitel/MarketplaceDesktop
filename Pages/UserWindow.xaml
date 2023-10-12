@@ -8,9 +8,6 @@
         Title="UserWindow" Height="450" Width="800">
     <Grid>
         <StackPanel Margin="10">
-            <TextBlock Text="User ID" />
-            <TextBox Text="{Binding UserId}" Margin="0,0,0,10" IsReadOnly="True" />
-
             <TextBlock Text="First Name" />
             <TextBox Text="{Binding FirstName}" Margin="0,0,0,10" />
 

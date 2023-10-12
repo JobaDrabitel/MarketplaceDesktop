@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\cart.png" />
+    <None Remove="Resources\home.png" />
     <None Remove="Resources\profile.png" />
   </ItemGroup>
 
@@ -22,6 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\cart.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\home.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

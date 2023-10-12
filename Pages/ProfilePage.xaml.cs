@@ -10,18 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace MarketplaceDesktop.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для Cart.xaml
-    /// </summary>
-    public partial class Cart : Window
-    {
-        public Cart()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Логика взаимодействия для ProfilePage.xaml
+	/// </summary>
+	public partial class ProfilePage : Page
+	{
+		public ProfilePage()
+		{
+			InitializeComponent();
+		}
+	}
 }

@@ -24,8 +24,8 @@ namespace MarketplaceDesktop.Pages
         {
             InitializeComponent();
 			DataContext = product;
-			ReviewItems.ItemsSource = product.Reviews.ToList();
-            UserItemControl.ItemsSource = product.Users.ToList();
+			ReviewsControl.ItemsSource = product.Reviews.ToList();
+            UserControl.ItemsSource = product.Users.ToList();
 		}
     }
 }

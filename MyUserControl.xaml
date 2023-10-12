@@ -12,7 +12,7 @@
         <!-- Красная полоса -->
         <Rectangle Fill="#d10024" Height="5" VerticalAlignment="Bottom" />
         <!-- Логотип -->
-        <Image HorizontalAlignment="Left" Margin="30 0 0 0" Source="/MarketplaceDesktop;component/Resources/logo.png" Width="200" Height="150" VerticalAlignment="Center" />
-        
+        <Image HorizontalAlignment="Left" Margin="10,0,0,0" Source="/MarketplaceDesktop;component/Resources/logo.png" Width="179" Height="123" VerticalAlignment="Center" />
+
     </Grid>
 </UserControl>

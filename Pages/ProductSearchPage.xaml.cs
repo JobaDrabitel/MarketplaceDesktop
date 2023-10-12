@@ -1,9 +1,6 @@
 ﻿using MarketplaceDesktop.Models;
-using MarketplaceDesktop.Pages;
-using MarketplaceDesktop.Pages.Moderator;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,19 +13,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Xml.Serialization;
 
-namespace MarketplaceDesktop
+namespace MarketplaceDesktop.Pages
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window
-	{
-		public ContentControl maincontent { get; set; }
+    /// <summary>
+    /// Логика взаимодействия для ProductSearchPage.xaml
+    /// </summary>
+    public partial class ProductSearchPage : Page
+    {
 		User User { get; set; }
 		Marketplace1Context _context = new();
-		public MainWindow(User user)
+		public ProductSearchPage(User user, int categoryId, string searchTerm)
 		{
 			InitializeComponent();
 			User = user;
@@ -45,7 +40,7 @@ namespace MarketplaceDesktop
 
 		private async void SearchButton_Click(object sender, RoutedEventArgs e)
 		{
-			this.Content = new CartPage(User);
+			this.Content = new MainWindow(User);
 		}
 
 		private async void CartButton_Click(object sender, RoutedEventArgs e)
@@ -61,20 +56,7 @@ namespace MarketplaceDesktop
 
 		private void Cart_Click(object sender, RoutedEventArgs e)
 		{
-			maincontent = this;
 			this.Content = new CartPage(User);
-		}
-
-		private void Logout_Click(object sender, RoutedEventArgs e)
-		{
-			User = null;
-			AuthWindow authWindow = new AuthWindow();
-			authWindow.Show();
-			this.Close();
-		}
-		private void MyProducts_Click(object sender, RoutedEventArgs e)
-		{
-			Window.GetWindow(this).Content = new MyProducts(User);
 		}
 	}
 }

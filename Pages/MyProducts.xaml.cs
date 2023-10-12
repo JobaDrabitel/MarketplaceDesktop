@@ -1,6 +1,4 @@
 ﻿using MarketplaceDesktop.Models;
-using MarketplaceDesktop.Pages;
-using MarketplaceDesktop.Pages.Moderator;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,23 +14,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Xml.Serialization;
 
-namespace MarketplaceDesktop
+namespace MarketplaceDesktop.Pages
 {
 	/// <summary>
-	/// Interaction logic for MainWindow.xaml
+	/// Логика взаимодействия для MyProducts.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class MyProducts : Page
 	{
 		public ContentControl maincontent { get; set; }
 		User User { get; set; }
 		Marketplace1Context _context = new();
-		public MainWindow(User user)
+		public MyProducts(User user)
 		{
 			InitializeComponent();
 			User = user;
-			ProductsItemsControl.ItemsSource = _context.Products.ToList();
+			ProductsItemsControl.ItemsSource = _context.Products.Where(p => p.Users.First().UserId == user.UserId).ToList();
 			CategoryComboBox.ItemsSource = _context.Categories.Select(c => c.Name).ToList();
 		}
 		private void Product_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -42,10 +39,16 @@ namespace MarketplaceDesktop
 			ProductDetailWindow detailWindow = new ProductDetailWindow(selectedProduct);
 			detailWindow.Show();
 		}
-
+		private void Logout_Click(object sender, RoutedEventArgs e)
+		{
+			User = null;
+			AuthWindow authWindow = new AuthWindow();
+			authWindow.Show();
+			Window.GetWindow(this).Close();
+		}
 		private async void SearchButton_Click(object sender, RoutedEventArgs e)
 		{
-			this.Content = new CartPage(User);
+
 		}
 
 		private async void CartButton_Click(object sender, RoutedEventArgs e)
@@ -58,23 +61,27 @@ namespace MarketplaceDesktop
 			await userController.PutUser(User.UserId, User);
 			await _context.SaveChangesAsync();
 		}
-
 		private void Cart_Click(object sender, RoutedEventArgs e)
 		{
-			maincontent = this;
-			this.Content = new CartPage(User);
+			Window.GetWindow(this).Content = new CartPage(User);
+		}
+		private void Check_User()
+		{
+
 		}
 
-		private void Logout_Click(object sender, RoutedEventArgs e)
+		private void Home_Click(object sender, RoutedEventArgs e)
 		{
-			User = null;
-			AuthWindow authWindow = new AuthWindow();
-			authWindow.Show();
-			this.Close();
+			Window.GetWindow(this).Content = new MainPage(User);
 		}
 		private void MyProducts_Click(object sender, RoutedEventArgs e)
 		{
 			Window.GetWindow(this).Content = new MyProducts(User);
+		}
+
+		private void AddProduct_Click(object sender, RoutedEventArgs e)
+		{
+
 		}
 	}
 }
