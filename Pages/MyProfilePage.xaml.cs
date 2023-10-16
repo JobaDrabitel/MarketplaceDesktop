@@ -1,9 +1,6 @@
 ﻿using MarketplaceDesktop.Models;
-using MarketplaceDesktop.Pages;
-using MarketplaceDesktop.Pages.Moderator;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,25 +13,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Xml.Serialization;
 
-namespace MarketplaceDesktop
+namespace MarketplaceDesktop.Pages
 {
 	/// <summary>
-	/// Interaction logic for MainWindow.xaml
+	/// Логика взаимодействия для ProfilePage.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class MyProfilePage : Page
 	{
-		public ContentControl maincontent { get; set; }
 		User User { get; set; }
 		Marketplace1Context _context = new();
-		public MainWindow(User user)
+		public MyProfilePage(User user)
 		{
 			InitializeComponent();
 			User = user;
-			ProductsItemsControl.ItemsSource = _context.Products.ToList();
 			CategoryComboBox.ItemsSource = _context.Categories.Select(c => c.Name).ToList();
-			this.Content = new MainPage(User);
+			DataContext = User;
+			ProfileItemControl.ItemsSource = _context.Users.Where(u => u.UserId == User.UserId).ToList();
 		}
 		private void Product_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
@@ -43,7 +38,13 @@ namespace MarketplaceDesktop
 			ProductDetailWindow detailWindow = new ProductDetailWindow(selectedProduct, User);
 			detailWindow.Show();
 		}
-
+		private void Logout_Click(object sender, RoutedEventArgs e)
+		{
+			User = null;
+			AuthWindow authWindow = new AuthWindow();
+			authWindow.Show();
+			Window.GetWindow(this).Close();
+		}
 		private async void SearchButton_Click(object sender, RoutedEventArgs e)
 		{
 			var selectedCategory = CategoryComboBox.SelectedItem;
@@ -52,46 +53,36 @@ namespace MarketplaceDesktop
 
 		private async void CartButton_Click(object sender, RoutedEventArgs e)
 		{
-			try
-			{
-				UserController userController = new UserController(_context);
-				User = await userController.GetUser(1);
-				Button button = (Button)sender;
-				Product selectedProduct = (Product)button.Tag;
-				if (User.ProductsNavigation.Contains(selectedProduct))
-				{
-					MessageBox.Show("Продукт уже в корзине");
-					return;
-				}
-				User.ProductsNavigation.Add(selectedProduct);
-				await userController.PutUser(User.UserId, User);
-				await _context.SaveChangesAsync();
-				MessageBox.Show("Продукт добавлен в корзину");
-			}
-			catch (Exception ex) { MessageBox.Show("Error"); }
+			UserController userController = new UserController(_context);
+			User = await userController.GetUser(1);
+			Button button = (Button)sender;
+			Product selectedProduct = (Product)button.Tag;
+			User.ProductsNavigation.Add(selectedProduct);
+			await userController.PutUser(User.UserId, User);
+			await _context.SaveChangesAsync();
 		}
-
 		private void Cart_Click(object sender, RoutedEventArgs e)
 		{
-			maincontent = this;
-			this.Content = new CartPage(User);
+			Window.GetWindow(this).Content = new CartPage(User);
+		}
+		private void Check_User()
+		{
+
 		}
 
-		private void Logout_Click(object sender, RoutedEventArgs e)
+		private void Home_Click(object sender, RoutedEventArgs e)
 		{
-			User = null;
-			AuthWindow authWindow = new AuthWindow();
-			authWindow.Show();
-			this.Close();
+			Window.GetWindow(this).Content = new MainPage(User);
 		}
 		private void MyProducts_Click(object sender, RoutedEventArgs e)
 		{
 			Window.GetWindow(this).Content = new MyProducts(User);
 		}
 
-		private void Profile_Click(object sender, RoutedEventArgs e)
+		private void EditProfile_Click(object sender, RoutedEventArgs e)
 		{
-			Window.GetWindow(this).Content = new MyProfilePage(User);
+			
 		}
+
 	}
 }

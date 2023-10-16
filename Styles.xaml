@@ -20,7 +20,7 @@
     </Style>
 
     <Style x:Key="SearchTextBoxStyle" TargetType="TextBox">
-        <Setter Property="Text" Value="Поиск товаров" />
+        <Setter Property="Text" Value="" />
         <Setter Property="Width" Value="200" />
         <Setter Property="Background" Value="White" />
         <Setter Property="BorderThickness" Value="0" />

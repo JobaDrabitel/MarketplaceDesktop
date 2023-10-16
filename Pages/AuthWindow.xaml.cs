@@ -94,8 +94,6 @@ namespace MarketplaceDesktop.Pages
 					return true;
 				}
 				return false;
-			
-
 		}
 
 		private void RegButton_Click(object sender, RoutedEventArgs e)
@@ -104,5 +102,6 @@ namespace MarketplaceDesktop.Pages
 			regWindow.Show();
 			Close();
         }
+
     }
 }

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace MarketplaceDesktop.Pages
 {
 	/// <summary>
-	/// Логика взаимодействия для ProfilePage.xaml
+	/// Логика взаимодействия для MyOrdersPage.xaml
 	/// </summary>
-	public partial class ProfilePage : Page
+	public partial class MyOrdersPage : Page
 	{
-		public ProfilePage()
+		public MyOrdersPage()
 		{
 			InitializeComponent();
 		}

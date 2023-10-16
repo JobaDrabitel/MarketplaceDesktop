@@ -23,24 +23,34 @@ namespace MarketplaceDesktop.Pages
     {
 		User User { get; set; }
 		Marketplace1Context _context = new();
-		public ProductSearchPage(User user, int categoryId, string searchTerm)
+		public ProductSearchPage(User user, string category, string searchTerm)
 		{
 			InitializeComponent();
 			User = user;
-			ProductsItemsControl.ItemsSource = _context.Products.ToList();
+			var query = _context.Products.AsQueryable();
+			if (!string.IsNullOrEmpty(category))
+			{
+				query = query.Where(p => p.Categories.First().Name == category);
+			}
+			if (!string.IsNullOrEmpty(searchTerm))
+			{
+				query = query.Where(p => p.Name.Contains(searchTerm));
+			}
 			CategoryComboBox.ItemsSource = _context.Categories.Select(c => c.Name).ToList();
+			ProductsItemsControl.ItemsSource = query.ToList();
 		}
 		private void Product_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			Border border = (Border)sender;
 			Product selectedProduct = (Product)border.Tag;
-			ProductDetailWindow detailWindow = new ProductDetailWindow(selectedProduct);
+			ProductDetailWindow detailWindow = new ProductDetailWindow(selectedProduct, User);
 			detailWindow.Show();
 		}
 
 		private async void SearchButton_Click(object sender, RoutedEventArgs e)
 		{
-			this.Content = new MainWindow(User);
+			var selectedCategory = CategoryComboBox.SelectedItem;
+			Window.GetWindow(this).Content = new ProductSearchPage(User, (string)selectedCategory, SearchTextBox.Text);
 		}
 
 		private async void CartButton_Click(object sender, RoutedEventArgs e)
@@ -57,6 +67,25 @@ namespace MarketplaceDesktop.Pages
 		private void Cart_Click(object sender, RoutedEventArgs e)
 		{
 			this.Content = new CartPage(User);
+		}
+		private void Profile_Click(object sender, RoutedEventArgs e)
+		{
+			Window.GetWindow(this).Content = new MyProfilePage(User);
+		}
+		private void Logout_Click(object sender, RoutedEventArgs e)
+		{
+			User = null;
+			AuthWindow authWindow = new AuthWindow();
+			authWindow.Show();
+			Window.GetWindow(this).Close();
+		}
+		private void Home_Click(object sender, RoutedEventArgs e)
+		{
+			Window.GetWindow(this).Content = new MainPage(User);
+		}
+		private void MyProducts_Click(object sender, RoutedEventArgs e)
+		{
+			Window.GetWindow(this).Content = new MyProducts(User);
 		}
 	}
 }

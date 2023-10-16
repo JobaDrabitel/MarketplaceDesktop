@@ -29,14 +29,14 @@ namespace MarketplaceDesktop.Pages
 		{
 			InitializeComponent();
 			User = user;
-			ProductsItemsControl.ItemsSource = _context.Products.Where(p => p.Users.First().UserId == user.UserId).ToList();
+			ProductsItemsControl.ItemsSource = User.Products.ToList();
 			CategoryComboBox.ItemsSource = _context.Categories.Select(c => c.Name).ToList();
 		}
 		private void Product_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			Border border = (Border)sender;
 			Product selectedProduct = (Product)border.Tag;
-			ProductDetailWindow detailWindow = new ProductDetailWindow(selectedProduct);
+			ProductDetailWindow detailWindow = new ProductDetailWindow(selectedProduct, User);
 			detailWindow.Show();
 		}
 		private void Logout_Click(object sender, RoutedEventArgs e)
@@ -48,40 +48,60 @@ namespace MarketplaceDesktop.Pages
 		}
 		private async void SearchButton_Click(object sender, RoutedEventArgs e)
 		{
-
+			var selectedCategory = CategoryComboBox.SelectedItem;
+			Window.GetWindow(this).Content = new ProductSearchPage(User, (string)selectedCategory, SearchTextBox.Text);
 		}
 
 		private async void CartButton_Click(object sender, RoutedEventArgs e)
 		{
-			UserController userController = new UserController(_context);
-			User = await userController.GetUser(1);
-			Button button = (Button)sender;
-			Product selectedProduct = (Product)button.Tag;
-			User.ProductsNavigation.Add(selectedProduct);
-			await userController.PutUser(User.UserId, User);
-			await _context.SaveChangesAsync();
+			try
+			{
+				UserController userController = new UserController(_context);
+				User = await userController.GetUser(1);
+				Button button = (Button)sender;
+				Product selectedProduct = (Product)button.Tag;
+				if (User.ProductsNavigation.Contains(selectedProduct))
+				{
+					MessageBox.Show("Продукт уже в корзине");
+					return;
+				}
+				User.ProductsNavigation.Add(selectedProduct);
+				await userController.PutUser(User.UserId, User);
+				await _context.SaveChangesAsync();
+				MessageBox.Show("Продукт добавлен в корзину");
+			}
+			catch (Exception ex) { MessageBox.Show("Error"); }
 		}
 		private void Cart_Click(object sender, RoutedEventArgs e)
 		{
 			Window.GetWindow(this).Content = new CartPage(User);
 		}
-		private void Check_User()
-		{
-
-		}
-
-		private void Home_Click(object sender, RoutedEventArgs e)
-		{
-			Window.GetWindow(this).Content = new MainPage(User);
-		}
+		
 		private void MyProducts_Click(object sender, RoutedEventArgs e)
 		{
 			Window.GetWindow(this).Content = new MyProducts(User);
 		}
+		private void Home_Click(object sender, RoutedEventArgs e)
+		{
+			Window.GetWindow(this).Content = new MainPage(User);
+		}
+	
 
 		private void AddProduct_Click(object sender, RoutedEventArgs e)
 		{
-
+			AddProductWindow addProductWindow = new(User, Window.GetWindow(this));
+			addProductWindow.Show();
+		}
+		private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (sender is TextBox textBox)
+			{
+				textBox.SelectAll();
+			}
+		}
+		private void Profile_Click(object sender, RoutedEventArgs e)
+		{
+			Window.GetWindow(this).Content = new MyProfilePage(User);
 		}
 	}
 }

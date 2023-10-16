@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketplaceDesktop"
         mc:Ignorable="d"
-        Title="AddProductWindow" Height="450" Width="400">
+        Title="AddProductWindow" Height="350" Width="350">
     <Window.Resources>
 
         <ResourceDictionary>
@@ -15,34 +15,24 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid Margin="0,0,0,-6">
         <Border BorderBrush="#15161d" BorderThickness="2" CornerRadius="10" Width="308" HorizontalAlignment="Center" Margin="0,0,0,10">
             <Grid HorizontalAlignment="Center" Margin="0,-2,0,0">
-                <StackPanel Margin="0,10,10,10">
-
-
+                <StackPanel Margin="0,10,10,3">
                     <TextBlock Text="Name" />
-                    <TextBox Text="{Binding Name}" Margin="0,0,0,10" />
-
+                    <TextBox Name="txtName" Text="{Binding Name}" Margin="0,0,0,10" />
                     <TextBlock Text="Description" />
-                    <TextBox Text="{Binding Description}" Margin="0,0,0,10" />
-
+                    <TextBox Name="txtDescription" Text="{Binding Description}" Margin="0,0,0,10" />
                     <TextBlock Text="Price" />
-                    <TextBox Text="{Binding Price}" Margin="0,0,0,10" />
-
+                    <TextBox Name="txtPrice" Text="{Binding Price}" Margin="0,0,0,10" />
                     <TextBlock Text="Stock Quantity" />
-                    <TextBox Text="{Binding StockQuantity}" Margin="0,0,0,10" />
-
-                    <TextBlock Text="Created At" />
-                    <DatePicker SelectedDate="{Binding CreatedAt}" Margin="0,0,0,10" />
-
-                    <TextBlock Text="Updated At" />
-                    <DatePicker SelectedDate="{Binding UpdatedAt}" Margin="0,0,0,10" />
-
+                    <TextBox Name="txtStock" Text="{Binding StockQuantity}" Margin="0,0,0,10" />
                     <TextBlock Text="Image URL" />
-                    <TextBox Text="{Binding ImageUrl}" Margin="0,0,0,10" />
+                    <TextBox Name="txtUrl" Text="{Binding ImageUrl}" Margin="0,0,0,10" />
+                    <ComboBox x:Name="categoryComboBox" DisplayMemberPath="Name">
+                    </ComboBox>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Content="Сохранить" Margin="10" />
+                        <Button x:Name="SaveProductButton" Click="SaveProductButton_Click"  Content="Сохранить" Margin="10" />
                         <Button Content="Отмена" Margin="10"/>
                     </StackPanel>
                 </StackPanel>

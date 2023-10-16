@@ -4,8 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MarketplaceDesktop"
+      xmlns:c="clr-namespace:MarketplaceDesktop.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="1000"
       Title="CartPage">
     <Page.Resources>
         <ResourceDictionary>
@@ -48,15 +49,18 @@
                 </ToggleButton.Template>
                 <ToggleButton.ContextMenu>
                     <ContextMenu Style="{StaticResource ContextMenuStyle}">
-                        <MenuItem FontFamily="Calibri" Header="Мой профиль"/>
-                        <MenuItem FontFamily="Calibri" Header="Мои товары" Click="MyProducts_Click"/>
-                        <MenuItem x:Name="Logout" FontFamily="Calibri" Header="Выхрд" Click="Logout_Click"/>
+                        <MenuItem Foreground="White"  FontFamily="Calibri" Header="Мой профиль" Click="Profile_Click"/>
+                        <MenuItem Foreground="White"  FontFamily="Calibri" Header="Мои товары" Click="MyProducts_Click"/>
+                        <MenuItem Foreground="White"  x:Name="Logout" FontFamily="Calibri" Header="Выхрд" Click="Logout_Click"/>
                     </ContextMenu>
                 </ToggleButton.ContextMenu>
             </ToggleButton>
         </StackPanel>
         <Label HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,75,0,301">Корзина</Label>
-        <ItemsControl HorizontalAlignment="Center" x:Name="ProductsItemsControl" Margin="10,75,10,301" Grid.Column="0">
+
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,80,10,0">
+            <StackPanel>
+                <ItemsControl HorizontalAlignment="Center" x:Name="ProductsItemsControl"  Margin="0,0,0,0">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal" />
@@ -65,25 +69,29 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Width="200"
-                  MouseLeftButtonUp="Product_MouseLeftButtonUp"
-                  Tag="{Binding}">
+                MouseLeftButtonUp="Product_MouseLeftButtonUp"
+                Tag="{Binding}">
                         <StackPanel>
-                            <Image Source="{Binding ImageUrl}" Width="200" Height="150"  />
+                            <Image Source="{Binding ImageUrl}" Width="200" Height="150" />
                             <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
                             <TextBlock Text="{Binding Price, StringFormat='{}${0:N2}'}" FontSize="14" />
-                            <Button x:Name="CartButton" Background="#d10024" Click="CartButton_Click" Foreground="White" FontSize="16" Tag="{Binding}">Add to cart</Button>
+
+                            <!-- TextBox для ввода количества товара -->
+                            <!--<TextBox Name="QuantityTextBox" FontSize="14" Width="60" MaxLength="3"
+         VerticalAlignment="Center" HorizontalAlignment="Center" 
+         Text="Count" TextAlignment="Center"
+         PreviewTextInput="QuantityTextBox_PreviewTextInput" />-->
+
+                            <!-- Кнопка для добавления в корзину -->
+                            <Button x:Name="CreateOrderButton" Background="#d10024" Click="CreateOrderButton_Click"
+                        Foreground="White" FontSize="16" Tag="{Binding}">Add to cart</Button>
                         </StackPanel>
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <!--<Border BorderBrush="#15161d" BorderThickness="2" CornerRadius="10" Width="300" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">-->
-        <!--<Grid>
-              <TextBox Padding="5 0 0 0" FontSize="20"  x:Name="txtEmail" Margin="20,20,20,0" VerticalAlignment="Top" Text="Email" Width="250" Height="30" />
-              <PasswordBox FontSize="20" x:Name="txtPassword" Margin="20,70,20,0" VerticalAlignment="Top"  Width="250" Height="30" />
-              <Button FontFamily="Times New Roman" FontSize="20" Content="Login" Margin="20,120,20,0" VerticalAlignment="Top" Width="250" Height="30" Background="#d10024" Foreground="White" Click="Button_Click" />
-          </Grid>-->
-        <!--</Border>-->
 
+        </ItemsControl>
+            </StackPanel>
+</ScrollViewer>
     </Grid>
 </Page>

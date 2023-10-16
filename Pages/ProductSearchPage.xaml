@@ -5,7 +5,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:local="clr-namespace:MarketplaceDesktop"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="900"
       Title="ProductSearchPage">
 
     <Page.Resources>
@@ -15,19 +15,21 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid Margin="0,0,0,357">
+    <Grid>
         <local:MyUserControl VerticalAlignment="Top" Height="75"/>
         <StackPanel Style="{StaticResource SearchBarStyle}" Background="#15161d" Margin="240,10,10,0" Height="55">
 
-
-            <ComboBox  x:Name="CategoryComboBox" HorizontalAlignment="Left" Height="25"  Width="111" Style="{StaticResource CategoryComboBoxStyle}">
+            <Button x:Name="Home" Width="59" Height="55" Click="Home_Click" VerticalAlignment="Top" Background="#15161d" BorderBrush="#15161d">
+                <Image   Source="/MarketplaceDesktop;component/Resources/home.png" Height="41" Width="43"></Image>
+            </Button>
+            <ComboBox  x:Name="CategoryComboBox" HorizontalAlignment="Left" Height="27"  Width="111" Style="{StaticResource CategoryComboBoxStyle}">
                 <ComboBox.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="10"/>
                     </Style>
                 </ComboBox.Resources>
             </ComboBox>
-            <TextBox x:Name="SearchTextBox" Style="{StaticResource SearchTextBoxStyle}" FontSize="20" Width="247" Height="25"/>
+            <TextBox  x:Name="SearchTextBox" Style="{StaticResource SearchTextBoxStyle}" FontSize="20" Width="230" Height="27"/>
             <Button Content="Поиск" Click="SearchButton_Click" HorizontalAlignment="Right" Style="{StaticResource SearchButtonStyle}">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
@@ -46,40 +48,38 @@
                 </ToggleButton.Template>
                 <ToggleButton.ContextMenu>
                     <ContextMenu Style="{StaticResource ContextMenuStyle}">
-                        <MenuItem FontFamily="Calibri" Header="Регистрация"/>
-                        <MenuItem FontFamily="Calibri" Header="Вход"/>
+                        <MenuItem Foreground="White"  FontFamily="Calibri" Header="Мой профиль" Click="Profile_Click"/>
+                        <MenuItem Foreground="White"  FontFamily="Calibri" Header="Мои товары" x:Name="MyProducts" Click="MyProducts_Click"/>
+                        <MenuItem Foreground="White"  x:Name="Logout" FontFamily="Calibri" Header="Выхрд" Click="Logout_Click"/>
                     </ContextMenu>
                 </ToggleButton.ContextMenu>
             </ToggleButton>
         </StackPanel>
-        <ItemsControl x:Name="ProductsItemsControl" Margin="10,80,10,-357" Grid.Column="0">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Width="200"
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,80, 10 ,0">
+            <StackPanel>
+                <ItemsControl x:Name="ProductsItemsControl" Margin="10,0,10,0" Grid.Column="0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Width="200"
                 MouseLeftButtonUp="Product_MouseLeftButtonUp"
                 Tag="{Binding}">
-                        <StackPanel>
-                            <Image Source="{Binding ImageUrl}" Width="200" Height="150"  />
-                            <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
-                            <TextBlock Text="{Binding Price, StringFormat='{}${0:N2}'}" FontSize="14" />
-                            <Button x:Name="CartButton" Background="#d10024" Click="CartButton_Click" Foreground="White" FontSize="16" Tag="{Binding}">Add to cart</Button>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <!--<Border BorderBrush="#15161d" BorderThickness="2" CornerRadius="10" Width="300" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">-->
-        <!--<Grid>
-            <TextBox Padding="5 0 0 0" FontSize="20"  x:Name="txtEmail" Margin="20,20,20,0" VerticalAlignment="Top" Text="Email" Width="250" Height="30" />
-            <PasswordBox FontSize="20" x:Name="txtPassword" Margin="20,70,20,0" VerticalAlignment="Top"  Width="250" Height="30" />
-            <Button FontFamily="Times New Roman" FontSize="20" Content="Login" Margin="20,120,20,0" VerticalAlignment="Top" Width="250" Height="30" Background="#d10024" Foreground="White" Click="Button_Click" />
-        </Grid>-->
-        <!--</Border>-->
+                                <StackPanel>
+                                    <Image Source="{Binding ImageUrl}" Width="200" Height="150"  />
+                                    <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding Price, StringFormat='{}${0:N2}'}" FontSize="14" />
+                                    <Button x:Name="CartButton" Background="#d10024" Click="CartButton_Click" Foreground="White" FontSize="16" Tag="{Binding}">Add to cart</Button>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
 
     </Grid>
 </Page>

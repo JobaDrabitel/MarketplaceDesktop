@@ -44,7 +44,12 @@ namespace MarketplaceDesktop.Pages
 		private void RefreshProductList()
 		{
 			var products = db.Products.ToList();
-			ProductGrid.ItemsSource = products;
+			ProductGrid.ItemsSource = products.Where(p => p.UpdatedAt != null);
+		}
+		private void ApprovehProductList()
+		{
+			var products = db.Products.ToList();
+			ProductsApproveGrid.ItemsSource = products.Where(p => p.UpdatedAt == null);
 		}
 
 		private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -96,10 +101,7 @@ namespace MarketplaceDesktop.Pages
 		{
 
 		}
-		void MyProfile_Click(object sender, RoutedEventArgs e)
-		{
-			
-		}
+	
 		private void Logout_Click(object sender, RoutedEventArgs e)
 		{
 			User = null;
@@ -175,6 +177,14 @@ namespace MarketplaceDesktop.Pages
 			db.SaveChanges();
 			RefreshReviewList();
 		}
+		private void Profile_Click(object sender, RoutedEventArgs e)
+		{
+			Window.GetWindow(this).Content = new MyProfilePage(User);
+		}
 
-	}
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+
+        }
+    }
 }

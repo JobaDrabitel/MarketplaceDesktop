@@ -28,14 +28,14 @@ namespace MarketplaceDesktop
 		{
 			InitializeComponent();
 			User = user;
-			ProductsItemsControl.ItemsSource = _context.Products.ToList();
-		
+			ProductsItemsControl.ItemsSource = User.ProductsNavigation.ToList();
+			DataContext = User.ProductsNavigation.ToList();
 		}
 		private void Product_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			Border border = (Border)sender;
 			Product selectedProduct = (Product)border.Tag;
-			ProductDetailWindow detailWindow = new ProductDetailWindow(selectedProduct);
+			ProductDetailWindow detailWindow = new ProductDetailWindow(selectedProduct, User);
 			detailWindow.Show();
 		}
 		private void Logout_Click(object sender, RoutedEventArgs e)
@@ -47,18 +47,29 @@ namespace MarketplaceDesktop
 		}
 		private async void SearchButton_Click(object sender, RoutedEventArgs e)
 		{
-
+			var selectedCategory = CategoryComboBox.SelectedItem;
+			Window.GetWindow(this).Content = new ProductSearchPage(User, (string)selectedCategory, SearchTextBox.Text);
 		}
 
 		private async void CartButton_Click(object sender, RoutedEventArgs e)
 		{
-			UserController userController = new UserController(_context);
-			User = await userController.GetUser(1);
-			Button button = (Button)sender;
-			Product selectedProduct = (Product)button.Tag;
-			User.ProductsNavigation.Add(selectedProduct);
-			await userController.PutUser(User.UserId, User);
-			await _context.SaveChangesAsync();
+			try
+			{
+				UserController userController = new UserController(_context);
+				User = await userController.GetUser(1);
+				Button button = (Button)sender;
+				Product selectedProduct = (Product)button.Tag;
+				if (User.ProductsNavigation.Contains(selectedProduct))
+				{
+					MessageBox.Show("Продукт уже в корзине");
+					return;
+				}
+				User.ProductsNavigation.Add(selectedProduct);
+				await userController.PutUser(User.UserId, User);
+				await _context.SaveChangesAsync();
+				MessageBox.Show("Продукт добавлен в корзину");
+			}
+			catch (Exception ex) { MessageBox.Show("Error"); }
 		}
 		private void Cart_Click(object sender, RoutedEventArgs e)
 		{
@@ -77,5 +88,25 @@ namespace MarketplaceDesktop
 		{
 			Window.GetWindow(this).Content = new MyProducts(User);
 		}
+		private void Profile_Click(object sender, RoutedEventArgs e)
+		{
+			Window.GetWindow(this).Content = new MyProfilePage(User);
+		}
+		private void QuantityTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		{
+			// Проверка, что вводится только число
+			if (!int.TryParse(e.Text, out _))
+			{
+				e.Handled = true;
+			}
+		}
+
+		private async void CreateOrderButton_Click(object sender, RoutedEventArgs e)
+		{
+			Product product = (Product)((Button)sender).Tag;
+			CreateOrderWindow createOrderWindow = new CreateOrderWindow(User, product, Window.GetWindow(this));
+			createOrderWindow.Show();
+		}
+
 	}
 }

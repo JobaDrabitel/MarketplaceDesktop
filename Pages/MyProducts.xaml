@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:MarketplaceDesktop"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" MinHeight="450" d:DesignWidth="800"
       Title="MyProducts">
 
     <Page.Resources>
@@ -30,7 +30,7 @@
                     </Style>
                 </ComboBox.Resources>
             </ComboBox>
-            <TextBox  Height="30" x:Name="SearchTextBox" Style="{StaticResource SearchTextBoxStyle}" FontSize="20" Width="247" />
+            <TextBox GotFocus="TextBox_GotFocus"  Height="30" x:Name="SearchTextBox" Style="{StaticResource SearchTextBoxStyle}" FontSize="20" Width="247" />
             <Button Content="Поиск" Click="SearchButton_Click" HorizontalAlignment="Right" Style="{StaticResource SearchButtonStyle}">
                 <Button.Resources>
                     <Style TargetType="{x:Type Border}">
@@ -49,38 +49,44 @@
                 </ToggleButton.Template>
                 <ToggleButton.ContextMenu>
                     <ContextMenu Style="{StaticResource ContextMenuStyle}">
-                        <MenuItem FontFamily="Calibri" Header="Мой профиль"/>
-                        <MenuItem FontFamily="Calibri" Header="Мои товары"/>
-                        <MenuItem x:Name="Logout" FontFamily="Calibri" Header="Выхрд" Click="Logout_Click"/>
+                        <MenuItem Foreground="White"  FontFamily="Calibri" Header="Мой профиль"  Click="Profile_Click"/>
+                        <MenuItem Foreground="White"  FontFamily="Calibri" Header="Мои товары"/>
+                        <MenuItem Foreground="White"  x:Name="Logout" FontFamily="Calibri" Header="Выхрд" Click="Logout_Click"/>
                     </ContextMenu>
                 </ToggleButton.ContextMenu>
             </ToggleButton>
         </StackPanel>
-        <Label HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,75,0,301">Мои продукты</Label>
-        <Button x:Name="AddProduct" Click="AddProduct_Click"  Width="20" Height="20" Background="White" Margin="718,107,62,313">
-            <Image   Source="/MarketplaceDesktop;component/Resources/plus.png" ></Image>
-        </Button>
-        <ItemsControl HorizontalAlignment="Center" x:Name="ProductsItemsControl" Margin="10,75,10,301" Grid.Column="0">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Width="200"
-              MouseLeftButtonUp="Product_MouseLeftButtonUp"
-              Tag="{Binding}">
-                        <StackPanel>
-                            <Image Source="{Binding ImageUrl}" Width="200" Height="150"  />
-                            <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
-                            <TextBlock Text="{Binding Price, StringFormat='{}${0:N2}'}" FontSize="14" />
-                            <Button x:Name="CartButton" Background="#d10024" Click="CartButton_Click" Foreground="White" FontSize="16" Tag="{Binding}">Add to cart</Button>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+     <Grid>
 
+    <Label HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,75,0,301">Мои продукты</Label>
+    <Button x:Name="AddProduct" Click="AddProduct_Click" Width="20" Height="20" Background="White" Margin="540,100,62,313">
+        <Image Source="/MarketplaceDesktop;component/Resources/plus.png"></Image>
+    </Button>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,139,10,0">
+                <StackPanel>
+                    <ItemsControl x:Name="ProductsItemsControl" Margin="10,50,10,0">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Width="200"
+                        MouseLeftButtonUp="Product_MouseLeftButtonUp"
+                        Tag="{Binding}">
+                                    <StackPanel>
+                                        <Image Source="{Binding ImageUrl}" Width="200" Height="150" />
+                                        <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding Price, StringFormat='{}${0:N2}'}" FontSize="14" />
+                                        <Button x:Name="CartButton" Background="#d10024" Click="CartButton_Click" Foreground="White" FontSize="16" Tag="{Binding}">Add to cart</Button>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
     </Grid>
 </Page>
