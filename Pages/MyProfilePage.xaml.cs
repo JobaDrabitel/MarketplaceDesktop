@@ -1,4 +1,5 @@
 ﻿using MarketplaceDesktop.Models;
+using MarketplaceDesktop.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,13 +32,7 @@ namespace MarketplaceDesktop.Pages
 			DataContext = User;
 			ProfileItemControl.ItemsSource = _context.Users.Where(u => u.UserId == User.UserId).ToList();
 		}
-		private void Product_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		{
-			Border border = (Border)sender;
-			Product selectedProduct = (Product)border.Tag;
-			ProductDetailWindow detailWindow = new ProductDetailWindow(selectedProduct, User);
-			detailWindow.Show();
-		}
+		
 		private void Logout_Click(object sender, RoutedEventArgs e)
 		{
 			User = null;
@@ -79,10 +74,31 @@ namespace MarketplaceDesktop.Pages
 			Window.GetWindow(this).Content = new MyProducts(User);
 		}
 
-		private void EditProfile_Click(object sender, RoutedEventArgs e)
+	
+
+		private async void SaveChangesButton_Click(object sender, RoutedEventArgs e)
 		{
-			
+			User currentUser = (User)((Button)sender).Tag;
+
+			await _context.SaveChangesAsync();
+
+			if (!ValidateUserData())
+			{
+				MessageBox.Show("Некорректные данные. Пожалуйста, проверьте введенные значения.");
+				return;
+			}
+
+		
+			MessageBox.Show("Изменения сохранены успешно.");
+		}
+		private bool ValidateUserData()
+		{
+			return true;
 		}
 
+		private void MyOrdersButton_Click(object sender, RoutedEventArgs e)
+		{
+			Window.GetWindow(this).Content = new MyOrdersPage(User);
+		}
 	}
 }

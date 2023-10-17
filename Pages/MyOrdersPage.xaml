@@ -3,12 +3,89 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:MarketplaceDesktop.Pages"
+      xmlns:local="clr-namespace:MarketplaceDesktop"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="MyOrdersPage">
 
-    <Grid>
-        
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid Margin="0,0,0,10">
+
+        <local:MyUserControl VerticalAlignment="Top" Height="75"/>
+        <StackPanel Style="{StaticResource SearchBarStyle}" Background="#15161d" Margin="191,10,10,0" Height="44">
+
+            <Button x:Name="Home" Width="54" Height="40" Click="Home_Click" VerticalAlignment="Top" Background="#15161d" BorderBrush="#15161d">
+                <Image   Source="/MarketplaceDesktop;component/Resources/home.png"></Image>
+            </Button>
+            <ComboBox  Height="30" x:Name="CategoryComboBox" HorizontalAlignment="Left"  Width="111" Style="{StaticResource CategoryComboBoxStyle}">
+                <ComboBox.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </ComboBox.Resources>
+            </ComboBox>
+            <TextBox GotFocus="TextBox_GotFocus"  Height="30" x:Name="SearchTextBox" Style="{StaticResource SearchTextBoxStyle}" FontSize="20" Width="247" />
+            <Button Content="Поиск" Click="SearchButton_Click" HorizontalAlignment="Right" Style="{StaticResource SearchButtonStyle}">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="0 15 15 0"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="Cart" Click="Cart_Click" Background="#15161d" BorderBrush="#15161d">
+                <Image   Source="/MarketplaceDesktop;component/Resources/cart.png" Height="44" Width="44"></Image>
+            </Button>
+            <ToggleButton VerticalAlignment="Top" x:Name="ProfileButton" Width="68" Height="53" ContextMenuService.ShowOnDisabled="True">
+                <ToggleButton.Template>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Image Source="/MarketplaceDesktop;component/Resources/profile.png" Width="50" Height="50"  />
+                    </ControlTemplate>
+                </ToggleButton.Template>
+                <ToggleButton.ContextMenu>
+                    <ContextMenu Style="{StaticResource ContextMenuStyle}">
+                        <MenuItem Foreground="White"  FontFamily="Calibri" Header="Мой профиль"  Click="Profile_Click"/>
+                        <MenuItem Foreground="White"  FontFamily="Calibri" Header="Мои товары"/>
+                        <MenuItem Foreground="White"  x:Name="Logout" FontFamily="Calibri" Header="Выхрд" Click="Logout_Click"/>
+                    </ContextMenu>
+                </ToggleButton.ContextMenu>
+            </ToggleButton>
+        </StackPanel>
+        <Grid>
+
+            <Label HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,75,0,301">Мои заказы</Label>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,139,10,0">
+    <StackPanel>
+        <ItemsControl ItemsSource="{Binding}" x:Name="OrdersItemsControl" Margin="10,50,10,0">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                                <Border  BorderBrush="Gray" BorderThickness="1" Margin="5" Width="200" MouseLeftButtonUp="Product_MouseLeftButtonUp" Tag="{Binding}">
+                                    <StackPanel>
+                            <TextBlock Text="{Binding OrderId}" FontSize="16" FontWeight="Bold" />
+                            <TextBlock Text="{Binding CreateTime}" FontSize="14" />
+                            <TextBlock Text="Quantity: " FontSize="14" />
+                            <TextBlock Text="{Binding TotalQuantity}" FontSize="14" />
+                            <TextBlock Text="Total Amount: " FontSize="14" />
+                            <TextBlock Text="{Binding TotalAmount, StringFormat='{}${0:N2}'}" FontSize="14" />
+                            <Button x:Name="CancelOrderButton" Content="Cancel Order" Click="CancelOrderButton_Click" Tag="{Binding}" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</ScrollViewer>
+
+        </Grid>
     </Grid>
 </Page>
