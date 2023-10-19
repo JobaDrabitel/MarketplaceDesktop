@@ -46,9 +46,6 @@ namespace MarketplaceDesktop.Pages
 
 				Categories = new List<Category>() { (Category)categoryComboBox.SelectedItem } 
 			};
-
-			
-			marketplaceContext.Products.Add(newProduct);
 			User.Products.Add(newProduct);
 			await userController.PutUser(User.UserId, User);
 

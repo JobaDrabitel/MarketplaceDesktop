@@ -92,7 +92,7 @@
                         </DataGrid>
                         <Button Content="Удалить" Click="DeleteReviewButton_Click" VerticalAlignment="Bottom"  Width="100" HorizontalAlignment="Left" Margin="0,0,0,10"/>
                     </Grid>
-                </TabItem><TabItem Background="#d10024" Header="Reviews" Margin="-2,-1,-2,0">
+                </TabItem><TabItem Background="#d10024" Header="Approve Product" Margin="-2,-1,-2,0">
                     <Grid Margin="0,0,-138,0">
                         <DataGrid x:Name="ProductsApproveGrid" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Extended" Margin="0,0,131,35">
                             <DataGrid.Columns>
@@ -102,7 +102,7 @@
                                 <DataGridTextColumn Header="CreatedAt" Binding="{Binding CreatedAt}" />
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Button Content="Удалить" Click="DeleteReviewButton_Click" VerticalAlignment="Bottom"  Width="100" HorizontalAlignment="Left" Margin="0,0,0,10"/>
+                        <Button Content="Удалить" Click="DeleteButton_Click" VerticalAlignment="Bottom"  Width="100" HorizontalAlignment="Left" Margin="0,0,0,10"/>
                         <Button Content="Принять" Click="Button_Click" VerticalAlignment="Bottom"  Width="100" HorizontalAlignment="Left" Margin="0,0,0,10"/>
                     </Grid>
                 </TabItem>

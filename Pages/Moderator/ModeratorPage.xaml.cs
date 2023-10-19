@@ -20,11 +20,172 @@ namespace MarketplaceDesktop.Pages.Moderator
 	/// </summary>
 	public partial class ModeratorPage : Window
 	{
-		User _user;
+		Marketplace1Context db = new Marketplace1Context();
+		User User { get; set; }
 		public ModeratorPage(User user)
 		{
 			InitializeComponent();
-			_user = user;
+			RefreshProductList();
+			RefreshUserList();
+			RefreshReviewList();
+			ApprovehProductList();
+			User = user;
+		}
+		private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+		{
+			RefreshProductList();
+			RefreshUserList();
+			RefreshReviewList();
+		}
+
+		private void RefreshProductList()
+		{
+			var products = db.Products.ToList();
+			ProductGrid.ItemsSource = products.Where(p => p.UpdatedAt != null);
+		}
+		private void ApprovehProductList()
+		{
+			var products = db.Products.ToList();
+			ProductsApproveGrid.ItemsSource = products.Where(p => p.UpdatedAt == null);
+		}
+
+		private void AddButton_Click(object sender, RoutedEventArgs e)
+		{
+			ProductWindow productWindow = new ProductWindow(new Product());
+			if (productWindow.ShowDialog() == true)
+			{
+				Product product = productWindow.Product;
+				db.Products.Add(product);
+				db.SaveChanges();
+				RefreshProductList();
+			}
+		}
+		private void AddReviewButton_Click(object sender, RoutedEventArgs e)
+		{
+			ReviewWindow productWindow = new ReviewWindow(new Review());
+			if (productWindow.ShowDialog() == true)
+			{
+				Review review = productWindow.Review;
+				db.Reviews.Add(review);
+				db.SaveChanges();
+				RefreshReviewList();
+			}
+		}
+
+		private void EditButton_Click(object sender, RoutedEventArgs e)
+		{
+			Product selectedProduct = ProductGrid.SelectedItem as Product;
+			if (selectedProduct == null) return;
+
+			ProductWindow productWindow = new ProductWindow(selectedProduct);
+
+			if (productWindow.ShowDialog() == true)
+			{
+				db.SaveChanges();
+				RefreshProductList();
+			}
+		}
+
+		private void DeleteButton_Click(object sender, RoutedEventArgs e)
+		{
+			Product selectedProduct = ProductGrid.SelectedItem as Product;
+			if (selectedProduct == null) return;
+			db.Products.Remove(selectedProduct);
+			db.SaveChanges();
+			RefreshProductList();
+		}
+
+		void AdminWindow_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void Logout_Click(object sender, RoutedEventArgs e)
+		{
+			User = null;
+			AuthWindow authWindow = new AuthWindow();
+			authWindow.Show();
+			this.Close();
+		}
+		private void RefreshUserList()
+		{
+			var users = db.Users.ToList();
+			UserGrid.ItemsSource = users;
+		}
+		private void RefreshReviewList()
+		{
+			var reviews = db.Reviews.ToList();
+			ReviewsGrid.ItemsSource = reviews;
+		}
+
+		private void AddUserButton_Click(object sender, RoutedEventArgs e)
+		{
+			UserWindow userWindow = new UserWindow(new User());
+			if (userWindow.ShowDialog() == true)
+			{
+				User user = userWindow.User;
+				db.Users.Add(user);
+				db.SaveChanges();
+				RefreshUserList();
+			}
+		}
+
+		private void EditUserButton_Click(object sender, RoutedEventArgs e)
+		{
+			User selectedUser = UserGrid.SelectedItem as User;
+			if (selectedUser == null) return;
+
+			UserWindow userWindow = new UserWindow(new User
+			{
+				UserId = selectedUser.UserId,
+				FirstName = selectedUser.FirstName,
+				LastName = selectedUser.LastName,
+				Email = selectedUser.Email,
+				PasswordHash = selectedUser.PasswordHash,
+				Phone = selectedUser.Phone
+			});
+
+			if (userWindow.ShowDialog() == true)
+			{
+				selectedUser = db.Users.Find(userWindow.User.UserId);
+				if (selectedUser != null)
+				{
+					selectedUser.FirstName = userWindow.User.FirstName;
+					selectedUser.LastName = userWindow.User.LastName;
+					selectedUser.Email = userWindow.User.Email;
+					selectedUser.PasswordHash = userWindow.User.PasswordHash;
+					selectedUser.Phone = userWindow.User.Phone;
+					db.SaveChanges();
+					RefreshUserList();
+				}
+			}
+		}
+
+		private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
+		{
+			User selectedUser = UserGrid.SelectedItem as User;
+			if (selectedUser == null) return;
+			db.Users.Remove(selectedUser);
+			db.SaveChanges();
+			RefreshUserList();
+		}
+		private void DeleteReviewButton_Click(object sender, RoutedEventArgs e)
+		{
+			Review selectedReview = ReviewsGrid.SelectedItem as Review;
+			if (selectedReview == null) return;
+			db.Reviews.Remove(selectedReview);
+			db.SaveChanges();
+			RefreshReviewList();
+		}
+		private void Profile_Click(object sender, RoutedEventArgs e)
+		{
+			Window.GetWindow(this).Content = new MyProfilePage(User);
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+
 		}
 	}
 }
+
