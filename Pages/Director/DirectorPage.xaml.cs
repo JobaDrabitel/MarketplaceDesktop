@@ -1,10 +1,6 @@
 ﻿using MarketplaceDesktop.Models;
-using MarketplaceDesktop.Pages ;
-using MarketplaceDesktop.Pages.Moderator;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,26 +11,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MarketplaceDesktop.Pages
+namespace MarketplaceDesktop.Pages.Director
 {
 	/// <summary>
-	/// Логика взаимодействия для AdminPage.xaml
+	/// Логика взаимодействия для DirectorPage.xaml
 	/// </summary>
-	public partial class AdminPage : Window
+	public partial class DirectorPage : Window
 	{
+
 		Marketplace1Context db = new Marketplace1Context();
 		User User { get; set; }
-		public AdminPage(User user)
+		public DirectorPage(User user)
 		{
 			InitializeComponent();
 			RefreshProductList();
 			RefreshUserList();
 			RefreshReviewList();
-			RefreshOrdersList();
-			ApprovehProductList();
 			User = user;
 		}
 		private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -49,11 +43,7 @@ namespace MarketplaceDesktop.Pages
 			var products = db.Products.ToList();
 			ProductGrid.ItemsSource = products.Where(p => p.UpdatedAt != null);
 		}
-		private void ApprovehProductList()
-		{
-			var products = db.Products.ToList();
-			ProductsApproveGrid.ItemsSource = products.Where(p => p.UpdatedAt == null);
-		}
+		
 
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -65,7 +55,8 @@ namespace MarketplaceDesktop.Pages
 				db.SaveChanges();
 				RefreshProductList();
 			}
-		}private void AddReviewButton_Click(object sender, RoutedEventArgs e)
+		}
+		private void AddReviewButton_Click(object sender, RoutedEventArgs e)
 		{
 			ReviewWindow productWindow = new ReviewWindow(new Review());
 			if (productWindow.ShowDialog() == true)
@@ -105,7 +96,7 @@ namespace MarketplaceDesktop.Pages
 		{
 
 		}
-	
+
 		private void Logout_Click(object sender, RoutedEventArgs e)
 		{
 			User = null;
@@ -117,7 +108,8 @@ namespace MarketplaceDesktop.Pages
 		{
 			var users = db.Users.ToList();
 			UserGrid.ItemsSource = users;
-		}private void RefreshReviewList()
+		}
+		private void RefreshReviewList()
 		{
 			var reviews = db.Reviews.ToList();
 			ReviewsGrid.ItemsSource = reviews;
@@ -129,8 +121,7 @@ namespace MarketplaceDesktop.Pages
 			if (userWindow.ShowDialog() == true)
 			{
 				User user = userWindow.User;
-				db.Users.Add(user);
-				db.SaveChanges();
+
 				RefreshUserList();
 			}
 		}
@@ -166,11 +157,7 @@ namespace MarketplaceDesktop.Pages
 			}
 		}
 
-		private void RefreshOrdersList()
-		{
-			var orders = db.Orders.Where(o => o.TotalQuantity == 0).ToList();
-			CancelOrdersGrid.ItemsSource = orders;
-		}
+		
 		private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
 		{
 			User selectedUser = UserGrid.SelectedItem as User;
@@ -178,7 +165,8 @@ namespace MarketplaceDesktop.Pages
 			db.Users.Remove(selectedUser);
 			db.SaveChanges();
 			RefreshUserList();
-		}private void DeleteReviewButton_Click(object sender, RoutedEventArgs e)
+		}
+		private void DeleteReviewButton_Click(object sender, RoutedEventArgs e)
 		{
 			Review selectedReview = ReviewsGrid.SelectedItem as Review;
 			if (selectedReview == null) return;
@@ -191,32 +179,7 @@ namespace MarketplaceDesktop.Pages
 			Window.GetWindow(this).Content = new MyProfilePage(User);
 		}
 
-		private async void Button_Click(object sender, RoutedEventArgs e)
-		{
-			ProductController productController = new ProductController(db);
-			Product selectedProduct = ProductsApproveGrid.SelectedItem as Product;
-			if (selectedProduct == null) return;
-			selectedProduct.UpdatedAt = DateTime.Now;
-			await productController.PutProduct(selectedProduct.ProductId, selectedProduct);
-			db.SaveChanges();
-			ApprovehProductList();
-		}
-		private async void AcceptCancelOrder_Click(object sender, RoutedEventArgs e)
-		{
-			OrderController orderController = new(db);
-			Order selectedOrder = CancelOrdersGrid.SelectedItem as Order;
-			if (selectedOrder == null) return;
-			await orderController.PutOrder(selectedOrder.OrderId, selectedOrder);
-			db.SaveChanges();
-			RefreshOrdersList();
-		}
-		private void RejectCancelOrder_Click(object sender, RoutedEventArgs e)
-		{
-			Order selectedOrder = CancelOrdersGrid.SelectedItem as Order;
-			if (selectedOrder == null) return;
-			selectedOrder.TotalQuantity = Convert.ToInt32(selectedOrder.TotalAmount / selectedOrder.Product.Price);
-			db.SaveChanges();
-			RefreshOrdersList();
-		}
+		
+	
 	}
 }

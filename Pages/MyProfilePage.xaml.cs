@@ -78,22 +78,33 @@ namespace MarketplaceDesktop.Pages
 
 		private async void SaveChangesButton_Click(object sender, RoutedEventArgs e)
 		{
-			User currentUser = (User)((Button)sender).Tag;
-
-			await _context.SaveChangesAsync();
-
-			if (!ValidateUserData())
+			try
+			{
+				User currentUser = (User)((Button)sender).Tag;
+				if (!IsValidEmail(currentUser.Email)) { MessageBox.Show("Некорректные данные почты. Пожалуйста, проверьте введенные значения."); return; }
+				await _context.SaveChangesAsync();
+				MessageBox.Show("Изменения сохранены успешно.");
+			}
+			catch (Exception ex) 
 			{
 				MessageBox.Show("Некорректные данные. Пожалуйста, проверьте введенные значения.");
 				return;
 			}
 
 		
-			MessageBox.Show("Изменения сохранены успешно.");
+			
 		}
-		private bool ValidateUserData()
+		private bool IsValidEmail(string email)
 		{
-			return true;
+			try
+			{
+				var addr = new System.Net.Mail.MailAddress(email);
+				return addr.Address == email;
+			}
+			catch
+			{
+				return false;
+			}
 		}
 
 		private void MyOrdersButton_Click(object sender, RoutedEventArgs e)

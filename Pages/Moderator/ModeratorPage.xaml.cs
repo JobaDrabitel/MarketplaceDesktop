@@ -20,6 +20,7 @@ namespace MarketplaceDesktop.Pages.Moderator
 	/// </summary>
 	public partial class ModeratorPage : Window
 	{
+		Marketplace1Context _context = new Marketplace1Context();
 		Marketplace1Context db = new Marketplace1Context();
 		User User { get; set; }
 		public ModeratorPage(User user)
@@ -116,6 +117,10 @@ namespace MarketplaceDesktop.Pages.Moderator
 		{
 			var reviews = db.Reviews.ToList();
 			ReviewsGrid.ItemsSource = reviews;
+		}private void RefreshOrdersList()
+		{
+			var orders = db.Orders.Where(o => o.TotalQuantity == 0).ToList();
+			OrderCancelGrid.ItemsSource = orders;
 		}
 
 		private void AddUserButton_Click(object sender, RoutedEventArgs e)
@@ -182,9 +187,32 @@ namespace MarketplaceDesktop.Pages.Moderator
 			Window.GetWindow(this).Content = new MyProfilePage(User);
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private async void Button_Click(object sender, RoutedEventArgs e)
 		{
-
+			ProductController productController = new ProductController(_context);
+			Product selectedProduct = ProductsApproveGrid.SelectedItem as Product;
+			if (selectedProduct == null) return;
+			selectedProduct.UpdatedAt = DateTime.Now;
+			await productController.PutProduct(selectedProduct.ProductId, selectedProduct);
+			db.SaveChanges();
+			ApprovehProductList();
+		}
+		private async void AcceptCancelOrder_Click(object sender, RoutedEventArgs e)
+		{
+			OrderController orderController = new(_context);
+			Order selectedOrder = OrderCancelGrid.SelectedItem as Order;
+			if (selectedOrder == null) return;
+			await orderController.PutOrder(selectedOrder.OrderId, selectedOrder);
+			db.SaveChanges();
+			RefreshOrdersList();
+		}
+		private void RejectCancelOrder_Click(object sender, RoutedEventArgs e)
+		{
+			Order selectedOrder = OrderCancelGrid.SelectedItem as Order;
+			if (selectedOrder == null) return;
+			selectedOrder.TotalQuantity = Convert.ToInt32( selectedOrder.TotalAmount / selectedOrder.Product.Price);
+			db.SaveChanges();
+			RefreshOrdersList();
 		}
 	}
 }

@@ -23,8 +23,6 @@
             </ToggleButton.Template>
             <ToggleButton.ContextMenu>
                 <ContextMenu Style="{StaticResource ContextMenuStyle}">
-                    <MenuItem Foreground="White" FontFamily="Calibri" Header="Мой профиль" Click="Profile_Click" />
-
                     <MenuItem Foreground="White"  FontFamily="Calibri" Header="Окно администрирования" Click="AdminWindow_Click"/>
                     <MenuItem Foreground="White"  FontFamily="Calibri" Header="Выход" Click="Logout_Click"/>
                 </ContextMenu>
@@ -56,7 +54,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
                         <Button Content="Добавить" Click="AddButton_Click" VerticalAlignment="Bottom" Width="100" HorizontalAlignment="Left" Margin="0,0,0,15" />
-                        <Button Content="Редактировать" Click="EditButton_Click" VerticalAlignment="Top"  Width="100" HorizontalAlignment="Center" Margin="0,277,0,0" />
+                        <Button Content="Редактировать" Click="EditButton_Click" VerticalAlignment="Top"  Width="100" HorizontalAlignment="Center" Margin="0,315,0,0" />
                         <Button Content="Удалить" Click="DeleteButton_Click" VerticalAlignment="Bottom"  Width="100" HorizontalAlignment="Right" Margin="0,0,0,20" />
                     </Grid>
                 </TabItem>
@@ -98,20 +96,45 @@
                 </TabItem>
                 <TabItem Background="#d10024" Header="Approve Products" Margin="-2,-1,-2,0">
                     <Grid Margin="0,0,-138,0">
-                        <DataGrid x:Name="ProductsApproveGrid" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Extended" Margin="0,0,131,45">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="65*"/>
+                            <ColumnDefinition Width="333*"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid x:Name="ProductsApproveGrid" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Extended" Margin="0,0,131,45" Grid.ColumnSpan="2">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Review ID" Binding="{Binding ReviewId}" />
-                                <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" />
-                                <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" />
-                                <DataGridTextColumn Header="CreatedAt" Binding="{Binding CreatedAt}" />
+                                <DataGridTextColumn Header="Product ID" Binding="{Binding ProductId}" />
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                                <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
+                                <DataGridTextColumn Header="Stock Quantity" Binding="{Binding StockQuantity}" />
+                                <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" />
+                                <DataGridTextColumn Header="Updated At" Binding="{Binding UpdatedAt}" />
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Button Content="Удалить" Click="DeleteReviewButton_Click" VerticalAlignment="Bottom"  Width="150" Height="30" HorizontalAlignment="Left" Margin="496,0,0,5"/>
-                        <Button Content="Принять" Click="Button_Click" VerticalAlignment="Bottom" Width="150" Height="30" HorizontalAlignment="Left" Margin="28,0,0,5"/>
+                        <Button Content="Удалить" Click="DeleteButton_Click" VerticalAlignment="Bottom"  Width="150" Height="30" HorizontalAlignment="Left" Margin="366,0,0,5" Grid.Column="1"/>
+                        <Button Content="Принять" Click="Button_Click" VerticalAlignment="Bottom" Width="150" Height="30" HorizontalAlignment="Left" Margin="28,0,0,5" Grid.ColumnSpan="2"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Background="#d10024" Header="Cancel Orders" Margin="-2,-1,-2,0">
+                    <Grid Margin="0,0,-138,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="215*"/>
+                            <ColumnDefinition Width="581*"/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid x:Name="OrderCancelGrid" AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Extended" Margin="0,0,131,45" Grid.ColumnSpan="2">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="OrderId" Binding="{Binding OrderId}" />
+                                <DataGridTextColumn Header="ProductId" Binding="{Binding ProductId}" />
+                                <DataGridTextColumn Header="UserId" Binding="{Binding UserId}" />
+                                <DataGridTextColumn Header="CreateTime" Binding="{Binding CreateTime}" />
+                                <DataGridTextColumn Header="TotalAmount" Binding="{Binding TotalAmount}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button Content="Отменить" Click="RejectCancelOrder_Click" VerticalAlignment="Bottom"  Width="150" Height="30" HorizontalAlignment="Left" Margin="281,0,0,5" Grid.Column="1"/>
+                        <Button Content="Принять" Click="AcceptCancelOrder_Click" VerticalAlignment="Bottom" Width="150" Height="30" HorizontalAlignment="Left" Margin="28,0,0,5"/>
                     </Grid>
                 </TabItem>
             </TabControl>
-
         </StackPanel>
     </Grid>
 </Window>

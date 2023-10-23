@@ -1,4 +1,5 @@
 ﻿using MarketplaceDesktop.Models;
+using MarketplaceDesktop.Pages.Director;
 using MarketplaceDesktop.Pages.Moderator;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,13 @@ namespace MarketplaceDesktop.Pages
 					case 3:
 						{
 							AdminPage admin = new AdminPage(User); 
+							admin.Show();
+							this.Close();
+							break;
+						}
+					case 4:
+						{
+							DirectorPage admin = new DirectorPage(User); 
 							admin.Show();
 							this.Close();
 							break;

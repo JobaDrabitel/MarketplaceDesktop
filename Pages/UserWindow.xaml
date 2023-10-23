@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketplaceDesktop.Pages"
         mc:Ignorable="d"
-        Title="UserWindow" Height="450" Width="800">
+        Title="UserWindow" Height="400" Width="400">
     <Grid>
         <StackPanel Margin="10">
             <TextBlock Text="First Name" />
@@ -26,7 +26,8 @@
             <TextBlock Text="Image URL" />
             <TextBox Text="{Binding ImageUrl}" Margin="0,0,0,10" />
 
-            <!-- Добавьте другие поля для редактирования свойств пользователя -->
+            <TextBlock Text="Role" />
+            <ComboBox x:Name="RoleComboBox"  Margin="0,0,0,10" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Сохранить" Click="Save_Click" Margin="10" />

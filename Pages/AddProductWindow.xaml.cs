@@ -43,7 +43,6 @@ namespace MarketplaceDesktop.Pages
 				StockQuantity = int.Parse(txtStock.Text),
 				ImageUrl = txtUrl.Text,
 				CreatedAt = DateTime.Now,
-
 				Categories = new List<Category>() { (Category)categoryComboBox.SelectedItem } 
 			};
 			User.Products.Add(newProduct);

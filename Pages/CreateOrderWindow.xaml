@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketplaceDesktop.Pages"
         mc:Ignorable="d"
-        Title="CreateOrderWindow" Height="450" Width="800">
+        Title="CreateOrderWindow" Height="350" Width="200">
     <Grid>
         <!-- Вертикальная панель для размещения элементов -->
         <StackPanel Margin="10">
