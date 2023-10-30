@@ -37,7 +37,7 @@ namespace MarketplaceDesktop.Pages
 				query = query.Where(p => p.Name.Contains(searchTerm));
 			}
 			CategoryComboBox.ItemsSource = _context.Categories.Select(c => c.Name).ToList();
-			ProductsItemsControl.ItemsSource = query.ToList();
+			ProductsItemsControl.ItemsSource = query.Where(p => p.StockQuantity > 0).ToList();
 		}
 		private void Product_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{

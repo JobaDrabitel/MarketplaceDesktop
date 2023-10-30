@@ -32,7 +32,7 @@ namespace MarketplaceDesktop.Pages
 		{
 			InitializeComponent();
 			User = user;
-			ProductsItemsControl.ItemsSource = _context.Products.ToList();
+			ProductsItemsControl.ItemsSource = _context.Products.Where(p=>p.StockQuantity>0).ToList();
 			CategoryComboBox.ItemsSource = _context.Categories.Select(c => c.Name).ToList();
 		}
 		private void Product_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

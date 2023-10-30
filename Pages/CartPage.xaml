@@ -58,7 +58,7 @@
         </StackPanel>
         <Label HorizontalAlignment="Center" FontSize="40" FontWeight="Bold" Margin="0,75,0,301">Корзина</Label>
 
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,80,10,0">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,139,10,0">
             <StackPanel>
                 <ItemsControl HorizontalAlignment="Center" x:Name="ProductsItemsControl"  Margin="0,0,0,0">
             <ItemsControl.ItemsPanel>
@@ -84,7 +84,7 @@
 
                             <!-- Кнопка для добавления в корзину -->
                             <Button x:Name="CreateOrderButton" Background="#d10024" Click="CreateOrderButton_Click"
-                        Foreground="White" FontSize="16" Tag="{Binding}">Add to cart</Button>
+                        Foreground="White" FontSize="16" Tag="{Binding}">Create Order</Button>
                         </StackPanel>
                     </Border>
                 </DataTemplate>

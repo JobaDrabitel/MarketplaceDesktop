@@ -52,23 +52,19 @@ namespace MarketplaceDesktop.Pages
 			Window.GetWindow(this).Content = new ProductSearchPage(User, (string)selectedCategory, SearchTextBox.Text);
 		}
 
-		private async void CartButton_Click(object sender, RoutedEventArgs e)
+		private async void DeleteButton_Click(object sender, RoutedEventArgs e)
 		{
+			ProductController productController = new ProductController(_context);
 			try
 			{
-				UserController userController = new UserController(_context);
-				User = await userController.GetUser(1);
-				Button button = (Button)sender;
-				Product selectedProduct = (Product)button.Tag;
-				if (User.ProductsNavigation.Contains(selectedProduct))
+				Product productToDelete = (sender as Button).Tag as Product;
+				if (productToDelete != null)
 				{
-					MessageBox.Show("Продукт уже в корзине");
-					return;
+					await productController.DeleteProduct(productToDelete.ProductId);
+					await _context.SaveChangesAsync();
+					User = await _context.Users.FindAsync(User.UserId);
+					Window.GetWindow(this).Content = new MyProducts(User);
 				}
-				User.ProductsNavigation.Add(selectedProduct);
-				await userController.PutUser(User.UserId, User);
-				await _context.SaveChangesAsync();
-				MessageBox.Show("Продукт добавлен в корзину");
 			}
 			catch (Exception ex) { MessageBox.Show("Error"); }
 		}

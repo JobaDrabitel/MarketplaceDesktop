@@ -79,7 +79,7 @@
                                         <Image Source="{Binding ImageUrl}" Width="200" Height="150" />
                                         <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
                                         <TextBlock Text="{Binding Price, StringFormat='{}${0:N2}'}" FontSize="14" />
-                                        <Button x:Name="CartButton" Background="#d10024" Click="CartButton_Click" Foreground="White" FontSize="16" Tag="{Binding}">Add to cart</Button>
+                                        <Button x:Name="CartButton" Background="#d10024" Click="DeleteButton_Click" Foreground="White" FontSize="16" Tag="{Binding}">Delete</Button>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketplaceDesktop.Pages"
         mc:Ignorable="d"
-        Title="CreateOrderWindow" Height="350" Width="200">
+        Title="CreateOrderWindow" Height="400" Width="200">
     <Grid>
         <!-- Вертикальная панель для размещения элементов -->
         <StackPanel Margin="10">
@@ -14,11 +14,11 @@
             <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" />
             <TextBlock Text="{Binding Price, StringFormat='{}${0:N2}'}" FontSize="14" />
 
-            <!-- Текстовое поле для ввода количества товара -->
-            <TextBox x:Name="QuantityTextBox" FontSize="16" Width="100" Margin="0 15 0 0" Text="Quantity"/>
+            <TextBlock HorizontalAlignment="Center" Text="Quantity" FontSize="16" FontWeight="Bold" />
+            <TextBox x:Name="QuantityTextBox" FontSize="16" Width="100" Margin="0 15 0 0" Text=""/>
 
             <!-- Кнопка для создания заказа -->
-            <Button Content="Create Order" Click="CreateOrder_Click" FontSize="16" Width="150" Margin="0 15 0 0"/>
+            <Button Content="Create Order" Click="CreateOrder_Click" FontSize="16" Width="100" Margin="0 15 0 0"/>
         </StackPanel>
     </Grid>
 </Window>
